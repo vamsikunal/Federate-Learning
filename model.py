@@ -20,4 +20,6 @@ class MyModel(nn.Module):
         x = F.relu(x)
         x = self.fc4(x)
         return F.log_softmax(x, dim=1)
-
+    
+    def optimizer(self):
+        return optim.SGD(self.parameters(), lr=0.05)

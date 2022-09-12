@@ -12,14 +12,14 @@ import progressbar
 
 class TrainMyModel:
 
-    def __init__(self, model, federated_train_loader, optimizer, n_epoch):
+    def __init__(self, model, federated_train_loader, n_epoch):
         self.model = model
         self.federated_train_loader = federated_train_loader
-        self.optimizer = optimizer
+        self.optimizer = model.optimizer
         self.n_epoch = n_epoch
+        self.loss_list = []
         
     def train(self):
-        loss_list = []
         for self.epoch in range(self.n_epoch):
             self.model.train()
             for batch_idx, (data, target) in enumerate(self.federated_train_loader):
@@ -29,8 +29,12 @@ class TrainMyModel:
                 loss = F.cross_entropy(output, target)
                 loss.backward()
                 self.optimizer.step()
-                self.model.get() # get back the improved model
-            loss_list += [loss.item()]
-        return loss_list
+                self.model.get() 
+            loss = loss.get()# get back the improved model
+            self.loss_list += [loss.item()]
+        return self.model
+    
+    def get_loss_list(self):
+        return self.loss_list
 
 
