@@ -21,15 +21,18 @@ class TrainMyModel:
         
     def train(self):
         for self.epoch in range(self.n_epoch):
+            print("Epoch: ", self.epoch, "\n")
             self.model.train()
-            for batch_idx, (data, target) in enumerate(self.federated_train_loader):
-                self.model.send(data.location) # send the model to the client device where the data is present
-                self.optimizer.zero_grad()         # training the model
-                output = self.model(data)
-                loss = F.cross_entropy(output, target)
-                loss.backward()
-                self.optimizer.step()
-                self.model.get() 
+            with progressbar.ProgressBar(max_value=batch_idx) as bar:
+                for batch_idx, (data, target) in enumerate(self.federated_train_loader):
+                    self.model.send(data.location) # send the model to the client device where the data is present
+                    self.optimizer.zero_grad()         # training the model
+                    output = self.model(data)
+                    loss = F.cross_entropy(output, target)
+                    loss.backward()
+                    self.optimizer.step()
+                    self.model.get() 
+                    bar.update(batch_idx)
             loss = loss.get()# get back the improved model
             self.loss_list += [loss.item()]
         return self.model
