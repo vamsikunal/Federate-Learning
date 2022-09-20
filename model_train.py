@@ -4,12 +4,6 @@ import torch.optim as optim
 import torch.nn.functional as F
 import progressbar
 
-
-# model = MyModel()
-# optimizer = optim.SGD(model.parameters(), lr=0.05)
-# federated_train_loader, test_loader = locked_data()
-# n_epoch = 3
-
 class TrainMyModel:
 
     def __init__(self, model, federated_train_loader, n_epoch):
@@ -19,7 +13,7 @@ class TrainMyModel:
         self.n_epoch = n_epoch
         self.loss_list = []
         
-    def train(self):
+    def train(self): 
         for self.epoch in range(self.n_epoch):
             print("Epoch: ", self.epoch, "\n")
             self.model.train()
