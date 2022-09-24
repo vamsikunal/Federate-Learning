@@ -14,7 +14,7 @@ class TrainMyModel:
         self.n_epoch = n_epoch
         self.loss_list = []
         
-    def train(self):
+    def train(self): 
         for self.epoch in range(self.n_epoch):
             print("Epoch: ", self.epoch, "\n")
             self.model.train()
