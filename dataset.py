@@ -1,8 +1,9 @@
 from torchvision import datasets, transforms
 
+
 class DatasetLoad():
     def __init__(self):
-        self.tranform = transforms.Compose([
+        self.transform = transforms.Compose([
         transforms.ToTensor(),
         transforms.Normalize((0.5, ), (0.5, )),])
 
@@ -29,5 +30,10 @@ class DatasetLoad():
 
 
 
-
+# For testing
+if __name__ == "__main__": 
+    from pysyft import *
+    print("Testing dataset.py")
+    df = DatasetLoad()
+    federated_train_loader, test_loader = locked_data(df.load_mnist())
 
